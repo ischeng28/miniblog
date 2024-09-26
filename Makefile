@@ -25,7 +25,7 @@ format: # 格式化 Go 源码.
 
 .PHONY: add-copyright
 add-copyright: # 添加版权头信息.
-	@addlicense -v -f $(ROOT_DIR)/scripts/boilerplate.txt $(ROOT_DIR) --skip-dirs=third_party,vendor,$(OUTPUT_DIR)
+	@addlicense -v -f $(ROOT_DIR)/scripts/boilerplate.txt $(ROOT_DIR) --skip-dirs=third_party,vendor,.idea,$(OUTPUT_DIR)
 
 .PHONY: swagger
 swagger: # 启动 swagger 在线文档.
