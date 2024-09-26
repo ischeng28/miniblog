@@ -13,7 +13,7 @@ cmd = "make build"
 # Array of commands to run after ^C
 post_cmd = []
 # Binary file yields from `cmd`.
-bin = "_output/platforms/linux/amd64/miniblog --config configs/miniblog.yaml"
+bin = "_output/platforms/linux/amd64/miniblog -c configs/miniblog.yaml"
 # Customize binary, can setup environment variables when run your app.
 full_bin = "APP_ENV=dev APP_USER=air ./tmp/main"
 # Add additional arguments when running binary (bin/full_bin). Will run './tmp/main hello world'.
