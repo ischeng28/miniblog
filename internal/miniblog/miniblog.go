@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/ischeng28/miniblog/internal/pkg/log"
+	"github.com/ischeng28/miniblog/pkg/version/verflag"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -30,6 +31,9 @@ Find more miniblog information at:
 		SilenceUsage: true,
 		//这里设置命令运行时，不需要指定命令行参数
 		RunE: func(cmd *cobra.Command, args []string) error {
+			// 如果 `--version=true`，则打印版本并退出
+			verflag.PrintAndExitIfRequested()
+
 			// 初始化日志
 			log.Init(logOptions())
 			defer log.Sync() // Sync 将缓存中的日志刷新到磁盘文件中
@@ -56,6 +60,9 @@ Find more miniblog information at:
 
 	//Cobra也支持本地标志，本地标志只能在其所绑定的命令上使用
 	cmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+
+	// 添加 --version 标志
+	verflag.AddFlags(cmd.PersistentFlags())
 
 	return cmd
 }
