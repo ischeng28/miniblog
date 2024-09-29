@@ -6,17 +6,18 @@
 package miniblog
 
 import (
-	"github.com/ischeng28/miniblog/internal/pkg/log"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/ischeng28/miniblog/internal/pkg/log"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 const (
 	//recommendedHomeDir定义放置miniblog服务配置的默认目录
-	recommendedHomeDir = "workspace/miniblog"
+	recommendedHomeDir = "workspace/miniblog/configs"
 	//defaultConfigName 指定了miniblog服务的默认配置文件名.
 	defaultConfigName = "miniblog.yaml"
 )
