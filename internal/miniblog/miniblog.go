@@ -16,8 +16,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/ischeng28/miniblog/internal/pkg/core"
-	"github.com/ischeng28/miniblog/internal/pkg/errno"
 	"github.com/ischeng28/miniblog/internal/pkg/log"
 	mw "github.com/ischeng28/miniblog/internal/pkg/middleware"
 	"github.com/ischeng28/miniblog/pkg/version/verflag"
@@ -98,17 +96,9 @@ func run() error {
 
 	g.Use(mws...)
 
-	// 注册 404 Handler.
-	g.NoRoute(func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{"code": 10003, "message": "Page not found."})
-		core.WriteResponse(c, errno.ErrPageNotFound, nil)
-	})
-
-	// 注册 /healthz handler.
-	g.GET("/healthz", func(c *gin.Context) {
-		log.C(c).Infow("Healthz function called")
-		core.WriteResponse(c, nil, map[string]string{"status": "ok"})
-	})
+	if err := installRouters(g); err != nil {
+		return err
+	}
 
 	// 创建 HTTP Server 实例
 	httpsrv := &http.Server{Addr: viper.GetString("addr"), Handler: g}
