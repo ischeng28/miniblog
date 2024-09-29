@@ -12,7 +12,7 @@ import (
 
 	"github.com/spf13/pflag"
 
-	"github.com/ischeng28/miniblog/internal/pkg/version"
+	"github.com/ischeng28/miniblog/pkg/version"
 )
 
 type versionValue int

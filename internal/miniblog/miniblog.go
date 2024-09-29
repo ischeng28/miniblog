@@ -20,7 +20,7 @@ import (
 	"github.com/ischeng28/miniblog/internal/pkg/errno"
 	"github.com/ischeng28/miniblog/internal/pkg/log"
 	mw "github.com/ischeng28/miniblog/internal/pkg/middleware"
-	"github.com/ischeng28/miniblog/internal/pkg/version/verflag"
+	"github.com/ischeng28/miniblog/pkg/version/verflag"
 
 	"github.com/spf13/cobra"
 
@@ -82,6 +82,11 @@ Find more miniblog information at:
 
 // run 函数是实际的业务代码入口函数
 func run() error {
+	// 初始化 store 层
+	if err := initStore(); err != nil {
+		return err
+	}
+
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))
 
