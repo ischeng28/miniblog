@@ -7,8 +7,10 @@ package user
 
 import (
 	"context"
+	"errors"
 	"github.com/ischeng28/miniblog/pkg/auth"
 	"github.com/ischeng28/miniblog/pkg/token"
+	"gorm.io/gorm"
 	"regexp"
 
 	"github.com/jinzhu/copier"
@@ -24,6 +26,7 @@ type UserBiz interface {
 	Create(ctx context.Context, r *v1.CreateUserRequest) error
 	Login(ctx context.Context, r *v1.LoginRequest) (*v1.LoginResponse, error)
 	ChangePassword(ctx context.Context, username string, r *v1.ChangePasswordRequest) error
+	Get(ctx context.Context, username string) (*v1.GetUserResponse, error)
 }
 
 // UserBiz 接口的实现.
@@ -87,4 +90,21 @@ func (b *userBiz) Create(ctx context.Context, r *v1.CreateUserRequest) error {
 	}
 
 	return nil
+}
+
+// Get 是UserBiz接口中`Get`方法的实现
+func (b *userBiz) Get(ctx context.Context, username string) (*v1.GetUserResponse, error) {
+	user, err := b.ds.Users().Get(ctx, username)
+	if err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, errno.ErrUserNotFound
+		}
+		return nil, err
+	}
+	var resp v1.GetUserResponse
+	_ = copier.Copy(&resp, user)
+
+	resp.CreateAt = user.CreatedAt.Format("2006-01-02 15:04:05")
+	resp.UpdateAt = user.UpdatedAt.Format("2006-01-02 15:04:05")
+	return &resp, nil
 }

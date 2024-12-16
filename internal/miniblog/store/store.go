@@ -13,13 +13,14 @@ import (
 
 var (
 	once sync.Once
-	// 全局变量，方便其它包直接调用已初始化好的 S 实例.
+	// S 全局变量，方便其它包直接调用已初始化好的 S 实例.
 	S *datastore
 )
 
 // IStore 定义了 Store 层需要实现的方法.
 type IStore interface {
 	Users() UserStore
+	DB() *gorm.DB
 }
 
 // datastore 是 IStore 的一个具体实现.
@@ -43,4 +44,8 @@ func NewStore(db *gorm.DB) *datastore {
 // Users 返回一个实现了 UserStore 接口的实例.
 func (ds *datastore) Users() UserStore {
 	return newUsers(ds.db)
+}
+
+func (ds *datastore) DB() *gorm.DB {
+	return ds.db
 }
