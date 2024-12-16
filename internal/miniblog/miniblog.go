@@ -9,6 +9,8 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"github.com/ischeng28/miniblog/internal/pkg/known"
+	"github.com/ischeng28/miniblog/pkg/token"
 	"net/http"
 	"os"
 	"os/signal"
@@ -84,6 +86,9 @@ func run() error {
 	if err := initStore(); err != nil {
 		return err
 	}
+
+	// 设置token包的签发密钥，用于token包的token签发和解析
+	token.Init(viper.GetString("jwt-secret"), known.XUsernameKey)
 
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))

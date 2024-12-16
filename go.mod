@@ -5,6 +5,7 @@ go 1.22.1
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/gin-gonic/gin v1.10.0
+	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/google/uuid v1.4.0
 	github.com/gosuri/uitable v0.0.4
 	github.com/jinzhu/copier v0.4.0

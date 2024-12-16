@@ -7,12 +7,12 @@ package miniblog
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"github.com/ischeng28/miniblog/internal/miniblog/controller/v1/user"
 	"github.com/ischeng28/miniblog/internal/miniblog/store"
 	"github.com/ischeng28/miniblog/internal/pkg/core"
 	"github.com/ischeng28/miniblog/internal/pkg/errno"
 	"github.com/ischeng28/miniblog/internal/pkg/log"
+	mw "github.com/ischeng28/miniblog/internal/pkg/middleware"
 )
 
 // installRouters 安装 miniblog 接口路由.
@@ -31,6 +31,8 @@ func installRouters(g *gin.Engine) error {
 
 	uc := user.New(store.S)
 
+	g.POST("/login", uc.Login)
+
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")
 	{
@@ -38,6 +40,8 @@ func installRouters(g *gin.Engine) error {
 		userv1 := v1.Group("/users")
 		{
 			userv1.POST("", uc.Create)
+			userv1.Use(mw.Authn())
+			userv1.PUT(":name/change-password", uc.ChangePassword)
 		}
 	}
 

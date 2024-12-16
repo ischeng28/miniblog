@@ -21,7 +21,7 @@ const (
 	//recommendedHomeDir定义放置miniblog服务配置的默认目录
 	recommendedHomeDir = "workspace/miniblog/configs"
 	//defaultConfigName 指定了miniblog服务的默认配置文件名.
-	defaultConfigName = "miniblog.yaml"
+	defaultConfigName = "miniblog"
 )
 
 func initConfig() {
